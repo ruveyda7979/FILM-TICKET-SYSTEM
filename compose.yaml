@@ -75,6 +75,24 @@ services:
     networks:
       - app-network
 
+  user-service:
+    build:
+      context: ./user-service
+      dockerfile: Dockerfile
+    container_name: user-service
+    ports:
+      - '8081:8081'
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-user:5432/user_db
+      SPRING_DATASOURCE_USERNAME: user_user
+      SPRING_DATASOURCE_PASSWORD: user_password
+      EUREKA_SERVER_URL: http://eureka-server:8761/eureka
+    depends_on:
+      - eureka-server
+      - postgres-user
+    networks:
+      - app-network
+
 networks:
   app-network:
     driver: bridge
