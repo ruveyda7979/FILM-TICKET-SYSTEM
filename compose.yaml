@@ -3,7 +3,6 @@ version: '3.8'
 services:
   postgres-user:
     image: postgres:15
-    container_name: postgres_user_container
     restart: always
     environment:
       POSTGRES_USER: user_user
@@ -18,7 +17,6 @@ services:
 
   postgres-movie:
     image: postgres:15
-    container_name: postgres_movie_container
     restart: always
     environment:
       POSTGRES_USER: movie_user
@@ -33,7 +31,6 @@ services:
 
   postgres-booking:
     image: postgres:15
-    container_name: postgres_booking_container
     restart: always
     environment:
       POSTGRES_USER: booking_user
@@ -50,7 +47,6 @@ services:
     build:
       context: ./eureka-server
       dockerfile: Dockerfile
-    container_name: eureka-server
     ports:
       - '8761:8761'
     networks:
@@ -65,7 +61,6 @@ services:
     build:
       context: ./api-gateway
       dockerfile: Dockerfile
-    container_name: api-gateway
     ports:
       - '8080:8080'
     environment:
@@ -79,9 +74,10 @@ services:
     build:
       context: ./user-service
       dockerfile: Dockerfile
-    container_name: user-service
-    ports:
-      - '8081:8081'
+    deploy:
+      replicas: 2
+#    ports:
+#      - '8085:8085'
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-user:5432/user_db
       SPRING_DATASOURCE_USERNAME: user_user
@@ -90,6 +86,44 @@ services:
     depends_on:
       - eureka-server
       - postgres-user
+    networks:
+      - app-network
+
+  movie-service:
+    build:
+      context: ./movie-service
+      dockerfile: Dockerfile
+    deploy:
+      replicas: 2
+    ports:
+      - '8082:8082'
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-movie:5432/movie_db
+      SPRING_DATASOURCE_USERNAME: movie_user
+      SPRING_DATASOURCE_PASSWORD: movie_password
+      EUREKA_SERVER_URL: http://eureka-server:8761/eureka
+    depends_on:
+      - eureka-server
+      - postgres-movie
+    networks:
+      - app-network
+
+  booking-service:
+    build:
+      context: ./booking-service
+      dockerfile: Dockerfile
+    deploy:
+      replicas: 2
+    ports:
+      - '8083:8083'
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-booking:5432/booking_db
+      SPRING_DATASOURCE_USERNAME: booking_user
+      SPRING_DATASOURCE_PASSWORD: booking_password
+      EUREKA_SERVER_URL: http://eureka-server:8761/eureka
+    depends_on:
+      - eureka-server
+      - postgres-booking
     networks:
       - app-network
 

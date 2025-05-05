@@ -1,13 +1,13 @@
 server:
-  port: 0
+  port: 8083
 
 spring:
   application:
-    name: user-service
+    name: booking-service
   datasource:
-    url: jdbc:postgresql://postgres-user:5432/user_db
-    username: user_user
-    password: user_password
+    url: jdbc:postgresql://postgres-booking:5432/booking_db
+    username: booking_user
+    password: booking_password
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
@@ -18,6 +18,8 @@ eureka:
   client:
     service-url:
       defaultZone: http://eureka-server:8761/eureka
+  instance:
+    prefer-ip-address: true
 
 springdoc:
   swagger-ui:

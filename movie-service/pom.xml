@@ -12,24 +12,24 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>user-service</artifactId>
-    <name>User Service</name>
-    <description>Microservice for User Management</description>
+    <artifactId>movie-service</artifactId>
+    <name>movie-service</name>
+    <description>Movie Service</description>
 
     <dependencies>
-        <!-- Spring Boot Starter Web -->
+        <!-- Web -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
-        <!-- Spring Boot Starter Data JPA -->
+        <!-- JPA -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
 
-        <!-- PostgreSQL Driver -->
+        <!-- PostgreSQL -->
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
@@ -78,13 +78,27 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- Test Dependencies -->
+        <!-- Test -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+
+        <!-- Mockito -->
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- LoadBalancer (isteğe bağlı ama diğer servislere uyumlu olsun diye ekliyoruz) -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-loadbalancer</artifactId>
+        </dependency>
     </dependencies>
+
 
 
     <build>
@@ -94,7 +108,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>3.1.5</version>
                 <configuration>
-                    <mainClass>com.film.bilet.userservice.UserServiceApplication</mainClass>
+                    <mainClass>com.film.bilet.movieservice.MovieServiceApplication</mainClass>
                 </configuration>
                 <executions>
                     <execution>
