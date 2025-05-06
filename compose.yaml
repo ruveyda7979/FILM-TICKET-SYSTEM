@@ -75,7 +75,7 @@ services:
       context: ./user-service
       dockerfile: Dockerfile
     deploy:
-      replicas: 2
+      replicas: 4
 #    ports:
 #      - '8085:8085'
     environment:
